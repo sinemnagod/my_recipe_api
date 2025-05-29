@@ -14,7 +14,7 @@ import com.recipe_app.backend.entity.Category;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = { "https://my-recipe-frontend.vercel.app", "http://localhost:3001" }, allowCredentials = "true")
 
 // @CrossOrigin(origins = "http://localhost:3001", allowCredentials = "true")
 @RestController
