@@ -14,7 +14,9 @@ import com.recipe_app.backend.entity.Category;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:3001", allowCredentials = "true")
+@CrossOrigin(origins = "*")
+
+// @CrossOrigin(origins = "http://localhost:3001", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/recipes")
 @RequiredArgsConstructor
@@ -65,7 +67,6 @@ public class RecipeController {
         recipe.setImageUrl(dto.getImageUrl());
         recipe.setScore(dto.getScore());
 
-        
         List<Category> cats = dto.getCategoryIds().stream()
                 .map(catId -> categoryRepository
                         .findById(catId)
@@ -73,7 +74,6 @@ public class RecipeController {
                 .collect(Collectors.toList());
         recipe.setCategories(cats);
 
-       
         return ResponseEntity.ok(recipeService.saveRecipe(recipe));
     }
 
