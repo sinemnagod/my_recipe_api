@@ -34,9 +34,15 @@ public class UserController {
 
         Cookie cookie = new Cookie("userId", user.getId().toString());
         cookie.setPath("/");
-        cookie.setSecure(false);
-        cookie.setHttpOnly(false);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
         cookie.setMaxAge(24 * 60 * 60);
+
+        String domain = System.getenv("COOKIE_DOMAIN");
+        if (domain != null && !domain.isEmpty()) {
+            cookie.setDomain(domain);
+        }
+
         response.addCookie(cookie);
 
         return ResponseEntity.ok(user);
