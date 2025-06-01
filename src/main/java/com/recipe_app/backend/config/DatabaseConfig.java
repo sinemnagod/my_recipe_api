@@ -18,6 +18,9 @@ public class DatabaseConfig {
     @Value("${spring.datasource.url}")
     private String dataSourceUrl;
 
+    @Value("${spring.datasource.username}")
+    private String dataSourceUsername;
+
     @Value("${spring.datasource.password}")
     private String dataSourcePassword;
 
@@ -25,12 +28,12 @@ public class DatabaseConfig {
     @Primary
     public DataSource dataSource() {
         logger.info("Initializing DataSource with URL: {}", dataSourceUrl);
-        logger.info("Using root user for database connection");
+        logger.info("Using username: {}", dataSourceUsername);
 
         HikariDataSource dataSource = new HikariDataSource();
         try {
             dataSource.setJdbcUrl(dataSourceUrl);
-            dataSource.setUsername("root");
+            dataSource.setUsername(dataSourceUsername);
             dataSource.setPassword(dataSourcePassword);
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
