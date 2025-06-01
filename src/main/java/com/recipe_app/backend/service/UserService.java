@@ -13,6 +13,8 @@ import com.recipe_app.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +33,7 @@ public class UserService {
         return UserMapper.toDTO(userRepository.save(user));
     }
 
+    @Transactional
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll()
                 .stream()
@@ -44,10 +47,13 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
+    @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
+    
+    @Transactional
     public UserDTO registerUser(UserDTO dto) {
         User user = UserMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -65,6 +71,7 @@ public class UserService {
         return UserMapper.toDTO(user);
     }
 
+    @Transactional
     public UserDTO addRecipeToFavorites(Long userId, Long recipeId) {
         User user = userRepository.findById(userId).orElseThrow();
         Recipe recipe = recipeRepository.findById(recipeId).orElseThrow();
@@ -75,6 +82,7 @@ public class UserService {
         return UserMapper.toDTO(user);
     }
 
+    @Transactional
     public UserDTO removeRecipeFromFavorites(Long userId, Long recipeId) {
         User user = userRepository.findById(userId).orElseThrow();
         Recipe recipe = recipeRepository.findById(recipeId).orElseThrow();
